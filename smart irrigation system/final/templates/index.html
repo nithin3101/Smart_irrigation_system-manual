@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Irrigation Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- Navbar 
+<nav class="navbar navbar-expand-lg bg-light shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><h2>Smart Irrigation</h2></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ url_for('predict_irrigation') }}">Water Prediction</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Sensors</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#temperature-section">Temperature</a></li>
+            <li><a class="dropdown-item" href="#humidity-section">Humidity</a></li>
+            <li><a class="dropdown-item" href="#soil-section">Soil Moisture</a></li>
+
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>-->
+
+<!-- Hero Section 
+<section class="background">
+  <div class="container">
+    <h1 class="display-4">Smart Irrigation System</h1>
+    <p class="lead">Live Monitoring and Intelligent Watering,Real-time insights into soil health, temperature, and humidity for efficient crop management.</p>
+  </div>
+</section> -->
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg custom-navbar shadow-sm fixed-top">
+  <div class="container">
+    <!-- Brand -->
+    <a class="navbar-brand fw-bold" href="#">
+      <span class="brand-highlight">🌱 Smart</span> Irrigation
+    </a>
+
+    <!-- Toggler -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Links -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('predict_irrigation') }}">Water Prediction</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Sensors</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#temperature-section">🌡️ Temperature</a></li>
+            <li><a class="dropdown-item" href="#humidity-section">💧 Humidity</a></li>
+            <li><a class="dropdown-item" href="#soil-section">🌱 Soil Moisture</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#analyticsCarousel"> Analytics</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+<section id="hero">
+  <div class="overlay"></div>
+  <div class="hero-content">
+    <h1>Smart Irrigation System</h1>
+    <p>
+      Live Monitoring and Intelligent Watering.  
+      Real-time insights into soil health, temperature, and humidity for efficient crop management.
+    </p>
+  </div>
+</section>
+
+
+
+
+<!-- Dashboard Cards -->
+<div class="container mt-4">
+  <div class="row g-4 justify-content-center">
+
+    <!-- Temperature Card -->
+    <div class="card" style="width: 18rem;">
+      <img src="https://herbals.co.nz/cdn/shop/articles/Capture444_619x.png?v=1612784898" class="card-img-top" alt="Temperature">
+      <div class="card-body text-center">
+        <h5  id="temperature-section" class="card-title">🌡️ Temperature (°C)</h5>
+        <h1 id="temp">--</h1>
+        <a href="https://agritech.tnau.ac.in/agriculture/agri_agrometeorology_temp.html" class="btn btn-dark">Read More</a>
+      </div>
+    </div>
+
+    <!-- Humidity Card -->
+    <div class="card" style="width: 18rem;">
+      <img src="https://img.freepik.com/premium-photo/agriculture-rain-crop_87720-96759.jpg" class="card-img-top" alt="Humidity">
+      <div class="card-body text-center">
+        <h5 id="humidity-section" class="card-title">💧 Humidity (%)</h5>
+        <h2 id="humidity">--</h2>
+        <a href="https://www.hortisensors.com/post/farmer-s-guide-to-humidity-in-agriculture" class="btn btn-dark">Read More</a>
+      </div>
+    </div>
+
+    <!-- Soil Moisture Card -->
+    <div class="card" style="width: 18rem;">
+      <img src="https://ecogardener.com/cdn/shop/articles/checking-soil-moisture_05ac6872-b096-4f76-85cf-e8c78fa35949.jpg?v=1599647858" class="card-img-top" alt="Soil Moisture">
+      <div class="card-body text-center">
+        <h5  id="soil-section"  class="card-title">🟫 Soil Moisture</h5>
+        <h1 id="moisture">--</h1>
+        <a href="https://www.drought.gov/topics/soil-moisture" class="btn btn-dark">Read More</a>
+      </div>
+    </div>
+
+    <!-- Crop Category Card 
+    <div class="card" style="width: 18rem;">
+      <img src="https://img.freepik.com/premium-photo/smart-agriculture-setup-with-iot-sensors-monitoring-soil-moisture-crop-health-solid-color-background-4k-ultra-hd_964851-116921.jpg" class="card-img-top" alt="Crop Category">
+      <div class="card-body text-center">
+        <h5 class="card-title">🌿 Select Crop Category</h5>
+        <button class="btn btn-primary m-1" onclick="saveCategory('Maize')">Maize</button>
+        <button class="btn btn-warning m-1" onclick="saveCategory('Wheat')">Wheat</button>
+        <button class="btn btn-success m-1" onclick="saveCategory('Paddy')">Paddy</button>
+      </div>
+    </div>-->
+
+
+    
+
+    <!-- Weather Forecast Card -->
+    <div class="card" style="width: 18rem;">
+      <img src="https://media.istockphoto.com/id/1007768414/photo/blue-sky-with-bright-sun-and-clouds.jpg?s=612x612&w=0&k=20&c=MGd2-v42lNF7Ie6TtsYoKnohdCfOPFSPQt5XOz4uOy4=" class="card-img-top" alt="Weather">
+      <div class="card-body text-center">
+        <h5 class="card-title">☁️ Weather Forecast</h5>
+        <div class="input-group mb-3 mt-3">
+          <input type="text" id="location" class="form-control rounded-start-pill px-4" placeholder="Enter City Name">
+          <button class="btn btn-primary rounded-end-pill px-4" id="check-weather-btn">Check</button>
+        </div>
+        <div id="weather-result" class="pt-2">
+          <p id="rain-status" class="fw-semibold text-primary mb-1"></p>
+          <p id="watering-advice" class="fw-medium text-dark"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Water Prediction Card -->
+    <div class="card text-center" style="width: 18rem;">
+      <img src="https://foodgardening.mequoda.com/wp-content/uploads/2021/03/Pouring-water-in-garden-740x493.jpg" class="card-img-top" alt="Water Prediction">
+      <div class="card-body">
+        <h5 class="card-title">🚿 Water Requirement</h5>
+        <p>Click below to predict how much water is needed.</p>
+        <a href="{{ url_for('predict_irrigation') }}" class="btn btn-info">Go to Prediction</a>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<h2 class="heading">🌱 Smart Irrigation Analytics</h2>
+
+
+
+<div class="container py-4">
+  
+
+  <!-- Analytics Card -->
+  <div id="analyticsCarousel" class="card1">
+    <div class="card1-header1">Latest Analytics (Last 5 Entries)</div>
+    <div class="card1-body1">
+      <div class="row text-center mb-3">
+        <div class="col">
+          <h5>Soil Moisture Avg</h5>
+          <p id="avgSoil">--</p>
+          <p id="trendSoil" class="trend-steady">--</p>
+        </div>
+        <div class="col">
+          <h5>Temperature Avg</h5>
+          <p id="avgTemp">--</p>
+          <p id="trendTemp" class="trend-steady">--</p>
+        </div>
+        <div class="col">
+          <h5>Humidity Avg</h5>
+          <p id="avgHumidity">--</p>
+          <p id="trendHumidity" class="trend-steady">--</p>
+        </div>
+      </div>
+      <canvas id="historyChart" height="100"></canvas>
+    </div>
+  </div>
+
+  <!-- Manual Input Form -->
+  <div class="card1">
+    <div class="card1-header1">Enter Sensor Data Manually</div>
+    <div class="card1-body1">
+      <form id="manualForm">
+        <div class="row mb-3">
+          <div class="col">
+            <input type="number" step="0.1" class="form-control" name="soilMoisture" placeholder="Soil Moisture" required>
+          </div>
+          <div class="col">
+            <input type="number" step="0.1" class="form-control" name="temperature" placeholder="Temperature" required>
+          </div>
+          <div class="col">
+            <input type="number" step="0.1" class="form-control" name="humidity" placeholder="Humidity" required>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success">Submit Data</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  let chart;
+
+  async function loadAnalytics() {
+    try {
+      const res = await fetch('/analytics');
+      if (!res.ok) return;
+      const data = await res.json();
+
+      document.getElementById('avgSoil').innerText = data.averages.soilMoisture.toFixed(2);
+      document.getElementById('avgTemp').innerText = data.averages.temperature.toFixed(2);
+      document.getElementById('avgHumidity').innerText = data.averages.humidity.toFixed(2);
+
+      setTrend('trendSoil', data.trend.soilMoisture);
+      setTrend('trendTemp', data.trend.temperature);
+      setTrend('trendHumidity', data.trend.humidity);
+
+      const labels = data.history.map((_, i) => `Entry ${i+1}`);
+      const soil = data.history.map(d => d.soilMoisture);
+      const temp = data.history.map(d => d.temperature);
+      const hum = data.history.map(d => d.humidity);
+
+      if (chart) chart.destroy();
+      const ctx = document.getElementById('historyChart').getContext('2d');
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            { label: 'Soil Moisture', data: soil, borderColor: 'green', fill: false },
+            { label: 'Temperature', data: temp, borderColor: 'red', fill: false },
+            { label: 'Humidity', data: hum, borderColor: 'blue', fill: false }
+          ]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
+
+    } catch (err) {
+      console.error('Error loading analytics:', err);
+    }
+  }
+
+  function setTrend(id, value) {
+    const el = document.getElementById(id);
+    el.innerText = value;
+    el.className = value === "Increasing" ? "trend-up" :
+                   value === "Decreasing" ? "trend-down" : "trend-steady";
+  }
+
+  document.getElementById('manualForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    await fetch('/manual_input', {
+      method: 'POST',
+      body: formData
+    });
+    e.target.reset();
+    loadAnalytics();
+  });
+
+  loadAnalytics();
+</script>
+
+
+
+
+
+<!-- Scripts -->
+<script>
+  // Initial placeholders
+  document.getElementById('temp').innerText = '--';
+  document.getElementById('humidity').innerText = '--';
+  document.getElementById('moisture').innerText = '--';
+
+  // Store selected crop
+  let selectedCrop = 'Wheat';
+  function saveCategory(crop) {
+    selectedCrop = crop;
+    alert("Selected Crop: " + crop);
+  }
+
+  // Real-time sensor data fetch
+  function updateSensorData() {
+    fetch('/live_data')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('temp').innerText = data.temperature !== null ? data.temperature + " °C" : "--";
+        document.getElementById('humidity').innerText = data.humidity !== null ? data.humidity + " %" : "--";
+        document.getElementById('moisture').innerText = data.soil !== null ? data.soil : "--";
+      })
+      .catch(err => console.error("Failed to fetch data:", err));
+  }
+
+  setInterval(updateSensorData, 3000); // Update every 3 seconds
+  updateSensorData(); // Initial load
+
+  // Weather Forecast API
+  const apiKey = "75bfdba6c84a31c00286297ff4437fd1";
+  async function fetchWeather(location) {
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${apiKey}&units=metric`);
+    return await response.json();
+  }
+
+  function checkRainTodayEvening(forecast) {
+    const today = new Date().getDate();
+    return forecast.list.some(item => {
+      const date = new Date(item.dt * 1000);
+      return date.getDate() === today &&
+             date.getHours() >= 17 && date.getHours() <= 20 &&
+             item.weather.some(w => w.main === "Rain");
+    });
+  }
+
+  document.getElementById('check-weather-btn').addEventListener('click', async () => {
+    const city = document.getElementById('location').value;
+    const data = await fetchWeather(city);
+
+    const rainStatus = document.getElementById('rain-status');
+    const wateringAdvice = document.getElementById('watering-advice');
+
+    if (data.cod === "200") {
+      const willRain = checkRainTodayEvening(data);
+      rainStatus.innerText = willRain ? "🌧️ Rain is expected this evening." : "☀️ No rain expected.";
+      wateringAdvice.innerText = willRain ? "Advice: Reduce water supply." : "Advice: Proceed with normal irrigation.";
+    } else {
+      alert("City not found. Please check the name.");
+    }
+  });
+</script>
+
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

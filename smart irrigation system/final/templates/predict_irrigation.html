@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Irrigation Water Requirement Predictor</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #d9e7ff, #ffffff);
+            color: #333;
+        }
+
+        h1 {
+            background-color: #0077b6;
+            color: white;
+            padding: 20px;
+            margin: 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        form {
+            background-color: #ffffff;
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 12px 20px;
+            margin: 20px 10px 0 0;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"] {
+            background-color: #28a745;
+            color: white;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+
+        button[type="button"] {
+            background-color: #007bff;
+            color: white;
+        }
+
+        button[type="button"]:hover {
+            background-color: #0069d9;
+        }
+
+        h2 {
+            text-align: center;
+            color: #0077b6;
+            margin-top: 40px;
+        }
+
+        p {
+            max-width: 600px;
+            margin: 10px auto;
+            font-size: 1.1em;
+        }
+
+        span {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .emoji-label {
+            font-size: 1.2em;
+        }
+
+        .icon-img {
+            display: block;
+            margin: 10px auto;
+            max-width: 80px;
+        }
+
+        @media (max-width: 650px) {
+            form, p {
+                padding: 20px;
+                margin: 20px;
+            }
+
+            button {
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+
+    <script>
+        function refreshData() {
+            fetch('/get_sensor_data')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.soilMoisture !== null) {
+                        document.getElementById('soil').value = Math.round(data.soilMoisture);
+                        document.getElementById('temp').value = Math.round(data.temperature);
+                        document.getElementById('humid').value = Math.round(data.humidity);
+
+                        document.getElementById('display_soil').innerText = Math.round(data.soilMoisture) + " %";
+                        document.getElementById('display_temp').innerText = Math.round(data.temperature) + " °C";
+                        document.getElementById('display_humid').innerText = Math.round(data.humidity) + " %";
+                    }
+                });
+        }
+
+        setInterval(refreshData, 5000);
+    </script>
+</head>
+<body>
+    <h1>🌾 Irrigation Water Requirement Predictor 🌱</h1>
+
+    <!-- Optional Image -->
+    <img src="https://cdn-icons-png.flaticon.com/512/3170/3170733.png" alt="Irrigation Icon" class="icon-img">
+
+    <form method="post" action="/predict">
+        <label class="emoji-label">🌽 Crop:</label>
+        <select name="crop" required>
+            <option value="Wheat">Wheat 🌾</option>
+            <option value="Paddy">Paddy 🌾</option>
+            <option value="Maize">Maize 🌽</option>
+        </select>
+
+        <label class="emoji-label">📏 Acreage (in acres):</label>
+        <input type="number" name="acreage" required>
+
+        <label class="emoji-label">💧 Soil Moisture (%):</label>
+        <input type="number" name="soilMoisture" id="soil" readonly>
+
+        <label class="emoji-label">🌡️ Temperature (°C):</label>
+        <input type="number" name="temperature" id="temp" readonly>
+
+        <label class="emoji-label">💨 Humidity (%):</label>
+        <input type="number" name="humidity" id="humid" readonly>
+
+        <button type="button" onclick="refreshData()">🔄 Refresh Data</button>
+        <button type="submit">📊 Predict</button>
+    </form>
+
+    <h2>📋 Prediction Output</h2>
+    <p><strong>💧 Soil Moisture:</strong> <span id="display_soil">{{ soilMoisture if soilMoisture else '-' }}</span></p>
+    <p><strong>🌡️ Temperature:</strong> <span id="display_temp">{{ temperature if temperature else '-' }}</span></p>
+    <p><strong>💨 Humidity:</strong> <span id="display_humid">{{ humidity if humidity else '-' }}</span></p>
+    <p><strong>🌿 Suggestion:</strong> <span id="display_suggestion">{{ suggestion if suggestion else '-' }}</span></p>
+    <p><strong>🚿 Water Requirement:</strong> <span id="display_prediction">{{ prediction if prediction else '-' }}</span></p>
+</body>
+</html>
